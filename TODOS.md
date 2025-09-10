@@ -15,22 +15,18 @@ This phase sets up the foundation of the Ruze backend project. The goal is to ma
     - Redis for caching / background tasks
     - Adminer or pgweb for simple DB management in the browser
 
-- [ ] **Set up `uv` or `poetry` and lock dependencies**  
+- [x] **Set up `uv` or `poetry` and lock dependencies**  
   Pick a dependency manager (`uv` is modern and fast, `poetry` is popular).  
   Use it to install FastAPI, Uvicorn, and other core libraries, then lock exact versions in a lock file.
 
-- [ ] **Add `pyproject.toml` with ruff, black, mypy configs**  
+- [x] **Add `pyproject.toml` with ruff, black, mypy configs**  
   Centralize tool configs in `pyproject.toml`:
     - **ruff** for linting (fast, replaces flake8/isort)
     - **black** for auto-formatting
     - **mypy** for static typing checks
 
-- [ ] **Configure `pre-commit` hooks (ruff/black/mypy/flake8 end-of-file-fixer)**  
+- [x] **Configure `pre-commit` hooks (ruff/black/mypy/flake8 end-of-file-fixer)**  
   Set up Git hooks so that before every commit, code style and typing checks run automatically.  
   This helps catch mistakes early and keeps the repo clean.
-
-- [ ] **DoD: `uvicorn app.main:app --reload` returns 200 on `/health` (stub)**  
-  Definition of Done: when you run the server locally, a GET request to `/health` should return a simple `200 OK`.  
-  This confirms the project scaffolding works and FastAPI is wired up.
 
 ---
