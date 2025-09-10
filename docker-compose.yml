@@ -1,0 +1,57 @@
+name: ruze
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ruze_postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ruze}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ruze}
+      POSTGRES_DB: ${POSTGRES_DB:-ruze}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ruze} -d ${POSTGRES_DB:-ruze}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: ruze_redis
+    # Use AOF for durability in dev; disable snapshots for faster restarts
+    command: ["redis-server", "--appendonly", "yes", "--save", ""]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  pgweb:
+    image: sosedoff/pgweb:0.14.3
+    container_name: ruze_pgweb
+    profiles: ["tools"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # pgweb accepts DATABASE_URL directly; connects to the docker service name `postgres`
+      - DATABASE_URL=postgres://${POSTGRES_USER:-ruze}:${POSTGRES_PASSWORD:-ruze}@postgres:5432/${POSTGRES_DB:-ruze}?sslmode=disable
+    ports:
+      - "${PGWEB_PORT:-8081}:8081"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
