@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.log
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Environment variables
+.env.local
+.env.*.local
+
+# Migrations (optional, if using Alembic or Django-style migrations)
+migrations/
+
+# Cache
+.cache/
+
+# FastAPI specific (uvicorn reload cache, etc.)
+*.pid
+
+.idea
