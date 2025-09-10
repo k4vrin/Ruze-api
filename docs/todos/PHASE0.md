@@ -30,3 +30,16 @@ This phase sets up the foundation of the Ruze backend project. The goal is to ma
   This helps catch mistakes early and keeps the repo clean.
 
 ---
+## Phase 1 — Configuration & Database
+- [ ] Create `app/core/settings.py` with `pydantic-settings`
+    - [ ] Variables: `DATABASE_URL`, `REDIS_URL`, `JWT_SECRET`, `ACCESS_TTL_MIN`, `REFRESH_TTL_DAYS`, `CORS_ORIGINS`, `ENV`, `OPENROUTER_KEY`
+    - [ ] Provide `.env.example` (see Appendix A)
+- [ ] DB bootstrapping
+    - [ ] `app/db/session.py` (engine, sessionmaker, async if chosen)
+    - [ ] `app/db/base.py` (Declarative `Base`)
+    - [ ] Alembic init + env config (async or sync)
+- [ ] **Models (initial)**
+    - [ ] `User` (id, email UNIQUE, password_hash, is_active, is_admin, created_at)
+    - [ ] `RefreshToken` (id, user_id, jti, expires_at, revoked)
+- [ ] **Migration**: `alembic revision --autogenerate -m "init"`; upgrade head
+- [ ] **DoD**: DB connects, tables exist, settings load from `.env`
